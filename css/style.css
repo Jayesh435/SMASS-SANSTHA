@@ -34,6 +34,14 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #9fc2ff;
+  outline-offset: 2px;
+}
+
 .container {
   width: min(1120px, 92%);
   margin: 0 auto;
@@ -125,15 +133,15 @@ a {
   display: grid;
   align-items: center;
   position: relative;
-  background: linear-gradient(120deg, rgba(10, 88, 202, 0.9), rgba(10, 61, 145, 0.8)),
-    url('https://picsum.photos/seed/hero-sanstha/1600/1000') center/cover;
+  background: linear-gradient(120deg, rgba(10, 88, 202, 0.55), rgba(10, 61, 145, 0.45)),
+    url('../images/1.jpeg') center/cover;
   color: var(--white);
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
 }
 
 .hero-content {
@@ -220,6 +228,14 @@ a {
   position: relative;
 }
 
+.slide-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(10, 61, 145, 0.2), rgba(10, 61, 145, 0.5));
+  pointer-events: none;
+}
+
 .slide.active {
   display: block;
   animation: fadeIn 0.5s ease;
@@ -240,6 +256,40 @@ a {
   padding: 8px 14px;
   border-radius: 8px;
   font-weight: 600;
+  z-index: 2;
+}
+
+.carousel-link {
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.slide-cta .slide-caption {
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  padding: 0;
+  z-index: 3;
+}
+
+.slide-cta .carousel-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 170px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--primary-dark);
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.slide-cta .carousel-link:hover {
+  transform: translateY(-2px);
 }
 
 .carousel-btn {
@@ -408,6 +458,7 @@ a {
 }
 
 .gallery-item {
+  display: block;
   margin: 0;
   background: var(--white);
   border: 1px solid var(--border);
@@ -415,6 +466,7 @@ a {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: transform 0.25s ease;
+  color: inherit;
 }
 
 .gallery-item:hover {
@@ -427,10 +479,117 @@ a {
   object-fit: cover;
 }
 
-.gallery-item figcaption {
+.gallery-item figcaption,
+.gallery-caption {
+  display: block;
   padding: 10px 12px;
   font-weight: 600;
   color: var(--primary-dark);
+}
+
+.gallery-caption {
+  display: none;
+}
+
+.lightbox-viewer {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(10, 23, 52, 0.82);
+  z-index: 1200;
+}
+
+.lightbox-viewer.show {
+  display: flex;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
+  width: 100%;
+  background: #0a3d91;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.lightbox-image {
+  width: 100%;
+  max-height: calc(92vh - 16px);
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0a3d91;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.lightbox-nav:hover {
+  background: #ffffff;
+}
+
+.lightbox-prev {
+  left: 12px;
+}
+
+.lightbox-next {
+  right: 12px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #0a3d91;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.lightbox-counter {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: rgba(10, 61, 145, 0.8);
+  color: #ffffff;
+  font-size: 0.9rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  z-index: 2;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.contact-layout a {
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.contact-layout a:hover {
+  text-decoration: underline;
 }
 
 .contact-layout {
@@ -624,5 +783,16 @@ a {
   .carousel-btn {
     width: 36px;
     height: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
